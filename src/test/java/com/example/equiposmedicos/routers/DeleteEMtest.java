@@ -45,7 +45,7 @@ public class DeleteEMtest {
         Mockito.when(repositorioEquipoMedico.deleteById(equipo1.getId())).thenReturn(Mono.empty());
 
         webTestClient.delete()
-                .uri("/stock/e12345")
+                .uri("/stock/eliminar/e12345")
                 .exchange()
                 .expectStatus().isAccepted()
                 .expectBody().isEmpty();

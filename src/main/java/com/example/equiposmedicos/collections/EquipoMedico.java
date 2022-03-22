@@ -1,5 +1,6 @@
 package com.example.equiposmedicos.collections;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -15,7 +16,9 @@ public class EquipoMedico {
     private String marca;
     private String serie;
     private String descripcion;
+    @JsonFormat(pattern = "YYYY-MM-dd", shape = JsonFormat.Shape.STRING)
     private LocalDate fechaMantenimiento;
+    @JsonFormat(pattern = "YYYY-MM-dd", shape = JsonFormat.Shape.STRING)
     private LocalDate fechaAdquisicion;
 
     public String getId() {

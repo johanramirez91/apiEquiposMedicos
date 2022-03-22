@@ -1,5 +1,6 @@
 package com.example.equiposmedicos.usecase;
 
+import com.example.equiposmedicos.collections.EquipoMedico;
 import com.example.equiposmedicos.dtos.EquipoMedicoDTO;
 import com.example.equiposmedicos.mapper.EquipoMedicoMapper;
 import com.example.equiposmedicos.repository.RepositorioEquipoMedico;
@@ -9,20 +10,23 @@ import reactor.core.publisher.Mono;
 
 @Service
 @Validated
-public class UpdateEMimplement implements AddEquipoMedico {
+public class UpdateEMimplement implements UpdateEM {
 
     private final RepositorioEquipoMedico repositorioEquipoMedico;
-    private final EquipoMedicoMapper mapper;
 
-    public UpdateEMimplement(RepositorioEquipoMedico repositorioEquipoMedico, EquipoMedicoMapper mapper) {
+    public UpdateEMimplement(RepositorioEquipoMedico repositorioEquipoMedico) {
         this.repositorioEquipoMedico = repositorioEquipoMedico;
-        this.mapper = mapper;
     }
 
     @Override
-    public Mono<EquipoMedicoDTO> apply(EquipoMedicoDTO equipoMedicoDTO) {
-        return repositorioEquipoMedico.save(mapper.mapperToEquipoMedico().apply(equipoMedicoDTO))
-                .map(equipoMedico -> mapper.mapperToDTO().apply(equipoMedico));
+    public Mono<String> apply(String id) {
+        Mono<EquipoMedico> equipoMedicoMono = repositorioEquipoMedico.findById(id);
+        return equipoMedicoMono.flatMap(equipoMedico -> {
+            if (!equipoMedico.getId().isEmpty()){
+                return repositorioEquipoMedico.save(equipoMedico).thenReturn("Equipo médico actualizado exitosamente");
+            }
+            return Mono.just("El Equipo NO fue actualizado");
+        });
 
     }
 }
