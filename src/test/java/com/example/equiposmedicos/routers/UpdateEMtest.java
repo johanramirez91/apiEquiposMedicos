@@ -6,6 +6,7 @@ import com.example.equiposmedicos.mapper.EquipoMedicoMapper;
 import com.example.equiposmedicos.repository.RepositorioEquipoMedico;
 import com.example.equiposmedicos.router.UpdateEMRouter;
 import com.example.equiposmedicos.usecase.UpdateEMimplement;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
@@ -61,12 +62,14 @@ public class UpdateEMtest {
         Mockito.when(repositorioEquipoMedico.save(Mockito.any())).thenReturn(equipoMedicoMono);
 
         webTestClient.put()
-                .uri("/stock/updateEM")
+                .uri("/stock/updateEM/e12345")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
                 .body(Mono.just(equipoMedicoDTO), EquipoMedicoDTO.class)
                 .exchange()
                 .expectStatus().isOk()
-                .expectBody(String.class);
+                .expectBody(String.class)
+                .value(response ->
+                        Assertions.assertThat(response).isEqualTo("Equipo médico actualizado exitosamente"));
     }
 }
