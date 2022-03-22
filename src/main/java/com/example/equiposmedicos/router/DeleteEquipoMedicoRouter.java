@@ -18,7 +18,7 @@ public class DeleteEquipoMedicoRouter {
 
     @Bean
     public RouterFunction<ServerResponse> deleteEquipoMedico(DeleteEMImplement deleteEMImplement){
-        return route(RequestPredicates.DELETE("/stock/{id}").and(accept(MediaType.APPLICATION_JSON)),
+        return route(RequestPredicates.DELETE("/stock/eliminar/{id}").and(accept(MediaType.APPLICATION_JSON)),
                 request -> ServerResponse.accepted()
                         .contentType(MediaType.APPLICATION_JSON)
                         .body(BodyInserters.fromPublisher(deleteEMImplement.get(request.pathVariable("id")), Void.class))
