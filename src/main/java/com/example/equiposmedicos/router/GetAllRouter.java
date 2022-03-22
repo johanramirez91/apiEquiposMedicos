@@ -17,7 +17,7 @@ import static org.springframework.web.reactive.function.server.RequestPredicates
 public class GetAllRouter {
 
     @Bean
-    public RouterFunction<ServerResponse> getAllEM(GetAllEM getAllEM){
+    public RouterFunction<ServerResponse> getAll(GetAllEM getAllEM){
         return route(GET("/stock/listaEM").and(accept(MediaType.APPLICATION_JSON)),
                 request -> ServerResponse.ok()
                         .contentType(MediaType.APPLICATION_JSON)
