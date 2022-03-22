@@ -23,5 +23,6 @@ public class UpdateEMimplement implements AddEquipoMedico {
     public Mono<EquipoMedicoDTO> apply(EquipoMedicoDTO equipoMedicoDTO) {
         return repositorioEquipoMedico.save(mapper.mapperToEquipoMedico().apply(equipoMedicoDTO))
                 .map(equipoMedico -> mapper.mapperToDTO().apply(equipoMedico));
+
     }
 }
