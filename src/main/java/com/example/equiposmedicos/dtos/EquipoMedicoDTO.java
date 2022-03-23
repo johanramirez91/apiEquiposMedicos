@@ -1,13 +1,11 @@
-package com.example.equiposmedicos.collections;
+package com.example.equiposmedicos.dtos;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
-@Document
-public class EquipoMedico {
+public class EquipoMedicoDTO {
 
     @Id
     private String id;
@@ -16,12 +14,26 @@ public class EquipoMedico {
     private String marca;
     private String serie;
     private String descripcion;
-    @JsonFormat(pattern = "YYYY-MM-dd", shape = JsonFormat.Shape.STRING)
     private LocalDate fechaMantenimiento;
-    @JsonFormat(pattern = "YYYY-MM-dd", shape = JsonFormat.Shape.STRING)
     private LocalDate fechaAdquisicion;
 
+    public EquipoMedicoDTO() {
+    }
+
+    public EquipoMedicoDTO(String id, String nombre, String ubicacion, String marca, String serie, String descripcion, LocalDate fechaMantenimiento, LocalDate fechaAdquisicion) {
+        this.id = id;
+        this.nombre = nombre;
+        this.ubicacion = ubicacion;
+        this.marca = marca;
+        this.serie = serie;
+        this.descripcion = descripcion;
+        this.fechaMantenimiento = fechaMantenimiento;
+        this.fechaAdquisicion = fechaAdquisicion;
+    }
+
     public String getId() {
+
+
         return id;
     }
 
@@ -83,5 +95,18 @@ public class EquipoMedico {
 
     public void setFechaAdquisicion(LocalDate fechaAdquisicion) {
         this.fechaAdquisicion = fechaAdquisicion;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        EquipoMedicoDTO that = (EquipoMedicoDTO) o;
+        return Objects.equals(id, that.id) && Objects.equals(nombre, that.nombre) && Objects.equals(ubicacion, that.ubicacion) && Objects.equals(marca, that.marca) && Objects.equals(serie, that.serie) && Objects.equals(descripcion, that.descripcion) && Objects.equals(fechaMantenimiento, that.fechaMantenimiento) && Objects.equals(fechaAdquisicion, that.fechaAdquisicion);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, nombre, ubicacion, marca, serie, descripcion, fechaMantenimiento, fechaAdquisicion);
     }
 }
