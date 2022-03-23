@@ -4,8 +4,9 @@ import com.example.equiposmedicos.collections.EquipoMedico;
 import com.example.equiposmedicos.dtos.EquipoMedicoDTO;
 import com.example.equiposmedicos.mapper.EquipoMedicoMapper;
 import com.example.equiposmedicos.repository.RepositorioEquipoMedico;
-import com.example.equiposmedicos.router.UpdateEMRouter;
-import com.example.equiposmedicos.usecase.UpdateEMimplement;
+import com.example.equiposmedicos.router.AddEquipoMedicoRouter;
+import com.example.equiposmedicos.usecase.AddEquipoMedicoImplement;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
@@ -22,8 +23,8 @@ import java.time.LocalDate;
 
 @WebFluxTest
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = {UpdateEMimplement.class, UpdateEMRouter.class, EquipoMedicoMapper.class})
-public class UpdateEMtest {
+@ContextConfiguration(classes = {AddEquipoMedicoRouter.class, AddEquipoMedicoImplement.class, EquipoMedicoMapper.class})
+class AddEMTest {
 
     @MockBean
     private RepositorioEquipoMedico repositorioEquipoMedico;
@@ -32,7 +33,7 @@ public class UpdateEMtest {
     private WebTestClient webTestClient;
 
     @Test
-    void updateEM(){
+    void addEM(){
 
         var equipo1 = new EquipoMedico();
 
@@ -57,16 +58,19 @@ public class UpdateEMtest {
         );
 
         Mono<EquipoMedico> equipoMedicoMono = Mono.just(equipo1);
-        Mockito.when(repositorioEquipoMedico.findById(equipo1.getId())).thenReturn(equipoMedicoMono);
         Mockito.when(repositorioEquipoMedico.save(Mockito.any())).thenReturn(equipoMedicoMono);
 
-        webTestClient.put()
-                .uri("/stock/updateEM")
+        webTestClient.post()
+                .uri("/stock/addEM")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
                 .body(Mono.just(equipoMedicoDTO), EquipoMedicoDTO.class)
                 .exchange()
-                .expectStatus().isOk()
-                .expectBody(String.class);
+                .expectStatus().isCreated()
+                .expectBody(EquipoMedico.class)
+                .value(response -> {
+                    Assertions.assertThat(response.getId()).isEqualTo(equipo1.getId());
+                    Assertions.assertThat(response.getNombre()).isEqualTo(equipo1.getNombre());
+                });
     }
 }

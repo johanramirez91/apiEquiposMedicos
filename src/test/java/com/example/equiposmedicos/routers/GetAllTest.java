@@ -23,7 +23,7 @@ import java.time.LocalDate;
 @WebFluxTest
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = {GetAllEM.class, GetAllRouter.class, EquipoMedicoMapper.class})
-public class GetAlltest {
+class GetAllTest {
 
     @MockBean
     private RepositorioEquipoMedico repositorioEquipoMedico;

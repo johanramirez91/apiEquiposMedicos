@@ -20,7 +20,7 @@ import java.time.LocalDate;
 @WebFluxTest
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = {DeleteEquipoMedicoRouter.class, DeleteEMImplement.class})
-public class DeleteEMtest {
+class DeleteEMTest {
 
     @MockBean
     private RepositorioEquipoMedico repositorioEquipoMedico;
