@@ -17,7 +17,7 @@ import static org.springframework.web.reactive.function.server.RequestPredicates
 public class AddEquipoMedicoRouter {
 
     @Bean
-    public RouterFunction<ServerResponse> addEquipoMedico(AddEquipoMedicoImplement addEquipoMedicoImplement){
+    public RouterFunction<ServerResponse> addEquipoMedico(AddEquipoMedicoImplement addEquipoMedicoImplement) {
         return route(POST("/stock/addEM").and(accept(MediaType.APPLICATION_JSON)),
                 request -> request.bodyToMono(EquipoMedicoDTO.class)
                         .flatMap(equipoMedicoDTO -> addEquipoMedicoImplement
