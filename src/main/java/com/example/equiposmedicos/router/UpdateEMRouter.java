@@ -17,11 +17,12 @@ import static org.springframework.web.reactive.function.server.RouterFunctions.r
 public class UpdateEMRouter {
 
     @Bean
-    public RouterFunction<ServerResponse> updateEM(UpdateEMimplement updateEMimplement){
-        return route(PUT("/stock/updateEM/{id}").and(accept(MediaType.APPLICATION_JSON)),
-                request -> ServerResponse.ok()
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .body(BodyInserters.fromPublisher(updateEMimplement.apply(request.pathVariable("id")), String.class))
-                        .onErrorResume(error -> ServerResponse.badRequest().build()));
+    public RouterFunction<ServerResponse> updateEM(UpdateEMimplement updateEMimplement) {
+        return route(PUT("/stock/updateEM").and(accept(MediaType.APPLICATION_JSON)),
+                request -> request.bodyToMono(EquipoMedicoDTO.class)
+                        .flatMap(equipoMedicoDTO -> updateEMimplement.apply(equipoMedicoDTO)
+                                .flatMap(result -> ServerResponse.ok()
+                                        .contentType(MediaType.APPLICATION_JSON)
+                                        .bodyValue(result))));
     }
 }
