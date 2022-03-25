@@ -19,7 +19,6 @@ public class UpdateEMimplement implements AddEquipoMedico {
         this.mapper = mapper;
     }
 
-
     @Override
     public Mono<EquipoMedicoDTO> apply(EquipoMedicoDTO equipoMedicoDTO) {
         return repositorioEquipoMedico.save(mapper.mapperToEquipoMedico().apply(equipoMedicoDTO))

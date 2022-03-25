@@ -17,7 +17,7 @@ public class UpdateEMRouter {
 
     @Bean
     public RouterFunction<ServerResponse> updateEM(UpdateEMimplement updateEMimplement) {
-        return route(PUT("/stock/updateEM").and(accept(MediaType.APPLICATION_JSON)),
+        return route(PUT("/stock/updateEM/{id}").and(accept(MediaType.APPLICATION_JSON)),
                 request -> request.bodyToMono(EquipoMedicoDTO.class)
                         .flatMap(equipoMedicoDTO -> updateEMimplement.apply(equipoMedicoDTO)
                                 .flatMap(result -> ServerResponse.ok()
