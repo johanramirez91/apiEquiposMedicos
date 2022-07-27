@@ -21,6 +21,7 @@ public class GetAllRouter {
         return route(GET("/stock/listaEM").and(accept(MediaType.APPLICATION_JSON)),
                 request -> ServerResponse.ok()
                         .contentType(MediaType.APPLICATION_JSON)
-                        .body(BodyInserters.fromPublisher(getAllEM.get(), EquipoMedicoDTO.class)));
+                        .body(BodyInserters.fromPublisher(getAllEM.get(), EquipoMedicoDTO.class))
+                        .onErrorResume(error -> ServerResponse.notFound().build()));
     }
 }
